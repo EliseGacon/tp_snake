@@ -38,9 +38,20 @@ def draw_snake(snake):
         pg.draw.rect(screen, color, rect)
     pg.display.update()
 
+
+def move_snake(snake, direction):
+    x_d, y_d=direction
+    snake2=snake
+    x_t, y_t=snake[-1]
+    snake2.append((x_t+x_d, y_t+y_d))
+    snake2.pop(0)
+    return snake2
+
+DIRECTION = (1, 0)
+
 running =True
 while running:
-    clock.tick(1)
+    clock.tick(2)
 
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -49,7 +60,21 @@ while running:
             if event.key == pg.K_q:
                 running=False
 
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_UP:
+                DIRECTION= (0,-1)
+            elif event.key == pg.K_DOWN:
+                DIRECTION= (0,1)
+            elif event.key == pg.K_LEFT:
+                DIRECTION= (-1,0) 
+            elif event.key == pg.K_RIGHT:
+                DIRECTION= (1,0)   
+        
     draw_board()
     draw_snake(SNAKE)
+    move_snake(SNAKE,DIRECTION)
+
+#3.3 : le serpent disparait lorsqu'il atteint le bord de la fenêtre
+
 
 
