@@ -64,8 +64,18 @@ def eat_fruit(score,snake,fruit):
         score+=1
         fruit=(randint(0, 29), randint(0, 29))
         draw_fruit(fruit)
-        snake.insert(0,snake[0]) #on rajoute une case au serpenr
+        snake.insert(0,snake[0]) # on rajoute une case au serpent
     return score, snake, fruit
+
+def game_over(snake):
+    if snake[-1] in snake[:-1]:
+        font=pg.font.Font(None, 74)      # créer une police
+        texte= font.render("Game over", color=(255,255,255))    # créer une image
+        screen.blit(texte, (100,100))    # coller l'image
+        pg.display.flip()   # afficher l'image
+        pg.time.wait(10000)  # atendre 2 secondes
+        return True
+    return False
 
 score=0
 
@@ -80,24 +90,29 @@ while running:
             if event.key == pg.K_q:
                 running=False
 
-        if event.type == pg.KEYDOWN:
-            if event.key == pg.K_UP:
-                DIRECTION= (0,-1)
-            elif event.key == pg.K_DOWN:
-                DIRECTION= (0,1)
-            elif event.key == pg.K_LEFT:
-                DIRECTION= (-1,0) 
-            elif event.key == pg.K_RIGHT:
-                DIRECTION= (1,0)   
-        
+        if game_over(SNAKE)==False:
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_UP:
+                    DIRECTION= (0,-1)
+                elif event.key == pg.K_DOWN:
+                    DIRECTION= (0,1)
+                elif event.key == pg.K_LEFT:
+                    DIRECTION= (-1,0) 
+                elif event.key == pg.K_RIGHT:
+                    DIRECTION= (1,0)   
+    
+    pg.display.set_caption(f'score : {score}')
     draw_board()
-    draw_snake(SNAKE)
     move_snake(SNAKE,DIRECTION)
     score, SNAKE, FRUIT = eat_fruit(score, SNAKE, FRUIT) # dans la fonction eat_fruit, snake et fruit sont locales donc on les rapelle à chaque fois
     draw_fruit(FRUIT)
+    draw_snake(SNAKE)
+
+    if game_over(SNAKE)==True:
+        running=False
     
 
-#3.3 : le serpent disparait lorsqu'il atteint le bord de la fenêtre
+# 3.3 : le serpent disparait lorsqu'il atteint le bord de la fenêtre
 
 
 
