@@ -70,10 +70,10 @@ def eat_fruit(score,snake,fruit):
 def game_over(snake):
     if snake[-1] in snake[:-1]:
         font=pg.font.Font(None, 74)      # créer une police
-        texte= font.render("Game over", color=(255,255,255))    # créer une image
-        screen.blit(texte, (100,100))    # coller l'image
+        texte= font.render("Game over", True, (255,0,0))    # créer une image
+        screen.blit(texte, (150,250))    # coller l'image
         pg.display.flip()   # afficher l'image
-        pg.time.wait(10000)  # atendre 2 secondes
+        pg.time.wait(2000)  # atendre 2 secondes
         return True
     return False
 
@@ -90,16 +90,15 @@ while running:
             if event.key == pg.K_q:
                 running=False
 
-        if game_over(SNAKE)==False:
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_UP:
-                    DIRECTION= (0,-1)
-                elif event.key == pg.K_DOWN:
-                    DIRECTION= (0,1)
-                elif event.key == pg.K_LEFT:
-                    DIRECTION= (-1,0) 
-                elif event.key == pg.K_RIGHT:
-                    DIRECTION= (1,0)   
+        if event.type == pg.KEYDOWN:
+            if event.key == pg.K_UP:
+                DIRECTION= (0,-1)
+            elif event.key == pg.K_DOWN:
+                DIRECTION= (0,1)
+            elif event.key == pg.K_LEFT:
+                DIRECTION= (-1,0) 
+            elif event.key == pg.K_RIGHT:
+                DIRECTION= (1,0)   
     
     pg.display.set_caption(f'score : {score}')
     draw_board()
